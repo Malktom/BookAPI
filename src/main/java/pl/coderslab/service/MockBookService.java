@@ -1,15 +1,19 @@
 package pl.coderslab.service;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
+import pl.coderslab.BookService;
 import pl.coderslab.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Data
-public class MockBookService {
+@AllArgsConstructor
+public class MockBookService implements BookService {
 
     private List<Book> list;
     private static Long nextId = 4L;
@@ -25,17 +29,37 @@ public class MockBookService {
                 "programming"));
     }
 
-    public List<Book> getList() {
+
+    @Override
+    public List<Book> getBooks() {
         return list;
     }
 
-    public void createNewBook (Book book) {
+    @Override
+    public void add(Book book) {
+        book.setId(nextId++);
         list.add(book);
     }
-    public Book showBook (int id) {
-        return list.get(id-1);
+
+    @Override
+    public Optional<Book> get(Long id) {
+        return list.stream().filter(item -> item.getId().equals(id)).findFirst();
     }
-    public Book removeBook (int id) {
-        return list.remove(id-1);
+
+    @Override
+    public void delete(Long id) {
+        if (get(id).isPresent()) {
+            list.remove(this.get(id).get());
+        }
     }
+    @Override
+    public void update(Book book) {
+        if (this.get(book.getId()).isPresent()) {
+            int indexOf = list.indexOf(this.get(book.getId()).get());
+            list.set(indexOf, book);
+        }
+    }
+
+
+
 }
