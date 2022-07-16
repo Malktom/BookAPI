@@ -50,4 +50,11 @@ public class BookController {
 
     }
 
+    @GetMapping("books/{id}")
+    @ResponseBody
+        public Book showBook(@PathVariable int id) {
+
+        return mockBookService.showBook(id);
+    }
+
 }

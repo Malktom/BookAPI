@@ -32,4 +32,7 @@ public class MockBookService {
     public void createNewBook (Book book) {
         list.add(book);
     }
+    public Book showBook (int id) {
+        return list.get(id-1);
+    }
 }
