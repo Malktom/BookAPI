@@ -1,7 +1,6 @@
-package pl.coderslab.repository;
+package pl.coderslab.service;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import pl.coderslab.model.Book;
 
@@ -26,5 +25,11 @@ public class MockBookService {
                 "programming"));
     }
 
+    public List<Book> getList() {
+        return list;
+    }
 
+    public void createNewBook (Book book) {
+        list.add(book);
+    }
 }

@@ -1,15 +1,14 @@
 package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Book;
-import pl.coderslab.repository.MockBookService;
+import pl.coderslab.service.MockBookService;
 
 import java.util.List;
 
-@RestController
+@Controller  // zmienic na RestController
 @RequestMapping("/books")
 public class BookController {
 
@@ -21,14 +20,34 @@ public class BookController {
     }
 
     @RequestMapping("/helloBook")
+    @ResponseBody // usunac
     public Book helloBook() {
         return new Book(1L, "9788324631766", "Thinking in Java",
                 "Bruce Eckel", "Helion", "programming");
     }
 
     @GetMapping("books")
+    @ResponseBody // ususnac
     public List<Book> getBooksList () {
 
         return mockBookService.getList();
     }
+
+    @GetMapping("addBook")
+    public String hello() {
+        return "/form";
+    }
+    @PostMapping("addBook")
+    @ResponseBody
+    public String createNewBook(@RequestParam(name="id") Long id ,
+                                @RequestParam(name ="isbn") String isbn,
+                                @RequestParam(name ="title") String title,
+                                @RequestParam(name ="author") String author,
+                                @RequestParam(name ="publisher") String publisher,
+                                @RequestParam(name ="type") String type) {
+        mockBookService.createNewBook(new Book(id,isbn,title,author,publisher,type));
+        return "book added";
+
+    }
+
 }
