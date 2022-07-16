@@ -56,5 +56,10 @@ public class BookController {
 
         return mockBookService.showBook(id);
     }
+    @DeleteMapping("books/{id}")
+    @ResponseBody
+    public Book removeBook(@PathVariable int id) {
 
+        return mockBookService.removeBook(id);
+    }
 }

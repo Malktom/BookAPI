@@ -35,4 +35,7 @@ public class MockBookService {
     public Book showBook (int id) {
         return list.get(id-1);
     }
+    public Book removeBook (int id) {
+        return list.remove(id-1);
+    }
 }
