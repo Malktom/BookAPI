@@ -1,0 +1,94 @@
+Index: src/main/java/pl/coderslab/controller/BookController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pl.coderslab.controller;\n\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.*;\nimport org.springframework.web.server.ResponseStatusException;\nimport pl.coderslab.BookService;\nimport pl.coderslab.model.Book;\nimport pl.coderslab.service.MockBookService;\n\nimport java.util.List;\n\n@Controller  // zmienic na RestController\n@RequestMapping(\"books\")\npublic class BookController {\n\n    private BookService bookService;\n\n    public BookController(BookService bookService) {\n        this.bookService = bookService;\n    }\n\n\n    @RequestMapping(\"/helloBook\")\n    @ResponseBody // usunac\n    public Book helloBook() {\n        return new Book(1L, \"9788324631766\", \"Thinking in Java\",\n                \"Bruce Eckel\", \"Helion\", \"programming\");\n    }\n\n    @GetMapping(\"\")\n    @ResponseBody\n    public\n    List<Book> getList() {\n        return bookService.getBooks();\n    }\n    @PostMapping(\"\")\n    @ResponseBody\n    public void addBook(@RequestBody Book book) {\n        bookService.add(book);\n    }\n    @GetMapping(\"/{id}\")\n    @ResponseBody\n    public Book getBook(@PathVariable Long id) {\n        return this.bookService.get(id).orElseThrow(() -> {\n            throw new ResponseStatusException(\n                    HttpStatus.NOT_FOUND, \"entity not found\"\n            );\n        });\n    }\n    @DeleteMapping(\"/{id}\")\n    public void removeBook(@PathVariable Long id) {\n        bookService.delete(id);\n    }\n    @PutMapping(\"\")\n    @ResponseBody\n    public void updateBook(@RequestBody Book book) {\n        bookService.update(book);\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/pl/coderslab/controller/BookController.java b/src/main/java/pl/coderslab/controller/BookController.java
+--- a/src/main/java/pl/coderslab/controller/BookController.java	
++++ b/src/main/java/pl/coderslab/controller/BookController.java	
+@@ -35,11 +35,13 @@
+     List<Book> getList() {
+         return bookService.getBooks();
+     }
++
+     @PostMapping("")
+     @ResponseBody
+     public void addBook(@RequestBody Book book) {
+         bookService.add(book);
+     }
++
+     @GetMapping("/{id}")
+     @ResponseBody
+     public Book getBook(@PathVariable Long id) {
+@@ -53,6 +55,7 @@
+     public void removeBook(@PathVariable Long id) {
+         bookService.delete(id);
+     }
++
+     @PutMapping("")
+     @ResponseBody
+     public void updateBook(@RequestBody Book book) {
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ArtifactsWorkspaceSettings\">\n    <artifacts-to-build>\n      <artifact name=\"BookAPI:war exploded\" />\n    </artifacts-to-build>\n  </component>\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"15e045b0-192f-460b-8840-ad7492cf5f55\" name=\"Changes\" comment=\"books list&#10;book add&#10;show book\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/pl/coderslab/BookService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/pl/coderslab/controller/BookController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/pl/coderslab/controller/BookController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/pl/coderslab/service/MockBookService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/pl/coderslab/service/MockBookService.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n        <option value=\"Interface\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"LogFilters\">\n    <option name=\"FILTER_ERRORS\" value=\"false\" />\n    <option name=\"FILTER_WARNINGS\" value=\"false\" />\n    <option name=\"FILTER_INFO\" value=\"true\" />\n    <option name=\"FILTER_DEBUG\" value=\"true\" />\n    <option name=\"CUSTOM_FILTER\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2C1bYMQbENEkYWPlIjw6nNOAn6p\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n    <option name=\"showMembers\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/home/tomasz/coderslab/BookAPI/src/main/webapp/WEB-INF/views&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/webapp/WEB-INF/views\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/java/pl/coderslab\" />\n      <recent name=\"$PROJECT_DIR$/src/main\" />\n    </key>\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\n      <recent name=\"pl.coderslab\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"Tomcat 9.0.58\" type=\"#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory\" factoryName=\"Local\" APPLICATION_SERVER_NAME=\"Tomcat 9.0.58\" ALTERNATIVE_JRE_ENABLED=\"false\" nameIsGenerated=\"true\">\n      <option name=\"UPDATING_POLICY\" value=\"restart-server\" />\n      <deployment>\n        <artifact name=\"BookAPI:war exploded\">\n          <settings>\n            <option name=\"CONTEXT_PATH\" value=\"/\" />\n          </settings>\n        </artifact>\n      </deployment>\n      <server-settings>\n        <option name=\"BASE_DIRECTORY_NAME\" value=\"68fa0efb-271e-4bb6-a73b-ace08b7c8a7a\" />\n      </server-settings>\n      <predefined_log_file enabled=\"true\" id=\"Tomcat\" />\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Catalina\" />\n      <predefined_log_file id=\"Tomcat Manager\" />\n      <predefined_log_file id=\"Tomcat Host Manager\" />\n      <predefined_log_file id=\"Tomcat Localhost Access\" />\n      <RunnerSettings RunnerId=\"Debug\">\n        <option name=\"DEBUG_PORT\" value=\"33977\" />\n      </RunnerSettings>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Cover\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Debug\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Profile\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Run\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n        <option name=\"BuildArtifacts\" enabled=\"true\">\n          <artifact name=\"BookAPI:war exploded\" />\n        </option>\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"15e045b0-192f-460b-8840-ad7492cf5f55\" name=\"Changes\" comment=\"\" />\n      <created>1657973085057</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1657973085057</updated>\n      <workItem from=\"1657973086714\" duration=\"1925000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"initial commit\">\n      <created>1657974589419</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1657974589419</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"books list\">\n      <created>1657977463000</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1657977463000</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"books list&#10;book add\">\n      <created>1657980735854</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1657980735854</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"books list&#10;book add&#10;show book\">\n      <created>1657981192218</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1657981192218</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"5\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"initial commit\" />\n    <MESSAGE value=\"books list\" />\n    <MESSAGE value=\"books list&#10;book add\" />\n    <MESSAGE value=\"books list&#10;book add&#10;show book\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"books list&#10;book add&#10;show book\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -10,10 +10,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="15e045b0-192f-460b-8840-ad7492cf5f55" name="Changes" comment="books list&#10;book add&#10;show book">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/coderslab/BookService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/pl/coderslab/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/coderslab/controller/BookController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/coderslab/service/MockBookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/coderslab/service/MockBookService.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -53,19 +50,20 @@
+     <option name="showLibraryContents" value="true" />
+     <option name="showMembers" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/home/tomasz/coderslab/BookAPI/src/main/webapp/WEB-INF/views&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "last_opened_file_path": "/home/tomasz/coderslab/BookAPI/src/main/webapp/WEB-INF/views",
++    "nodejs_package_manager_path": "npm",
++    "project.structure.last.edited": "Modules",
++    "project.structure.proportion": "0.15",
++    "project.structure.side.proportion": "0.2",
++    "spring.configuration.checksum": "da4b4c058cf153d4faebf6d2e955ef62"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+@@ -176,6 +174,7 @@
+       <option name="presentableId" value="Default" />
+       <updated>1657973085057</updated>
+       <workItem from="1657973086714" duration="1925000" />
++      <workItem from="1658055061672" duration="743000" />
+     </task>
+     <task id="LOCAL-00001" summary="initial commit">
+       <created>1657974589419</created>

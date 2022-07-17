@@ -12,8 +12,6 @@
 </head>
 <body>
 <form action="/books/addBook" method="POST">
-    id:
-    <input type="text" name="id"/>
     isbn:
     <input type="text" name="isbn"/>
     title:

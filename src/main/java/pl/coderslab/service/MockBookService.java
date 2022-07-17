@@ -30,6 +30,7 @@ public class MockBookService {
     }
 
     public void createNewBook (Book book) {
+        book.setId(nextId++);
         list.add(book);
     }
     public Book showBook (int id) {
@@ -37,5 +38,17 @@ public class MockBookService {
     }
     public Book removeBook (int id) {
         return list.remove(id-1);
+    }
+
+    public void update(Book book) {
+//
+//        if (this.showBook(book.getId()).isPresent()) {
+//
+//            int indexOf = list.indexOf(this.get(book.getId()).get());
+//
+//            list.set(indexOf, book);
+//
+//        }
+
     }
 }

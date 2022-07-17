@@ -1,0 +1,56 @@
+Index: src/main/java/pl/coderslab/service/MockBookService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pl.coderslab.service;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport org.springframework.stereotype.Repository;\nimport pl.coderslab.BookService;\nimport pl.coderslab.model.Book;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Optional;\n\n@Repository\n@Data\n@AllArgsConstructor\npublic class MockBookService implements BookService {\n\n    private List<Book> list;\n    private static Long nextId = 4L;\n\n\n\n    public MockBookService() {\n        list = new ArrayList<>();\n        list.add(new Book(1L, \"9788324631766\", \"Thiniking\tin\tJava\", \"Bruce\tEckel\", \"Helion\", \"programming\"));\n        list.add(new Book(2L, \"9788324627738\", \"Rusz\tglowa\tJava.\", \"Sierra\tKathy,\tBates\tBert\", \"Helion\",\n                \"programming\"));\n        list.add(new Book(3L, \"9780130819338\", \"Java\t2.\tPodstawy\", \"Cay\tHorstmann,\tGary\tCornell\", \"Helion\",\n                \"programming\"));\n    }\n\n\n    @Override\n    public List<Book> getBooks() {\n        return list;\n    }\n\n    @Override\n    public void add(Book book) {\n        book.setId(nextId++);\n        list.add(book);\n    }\n\n    @Override\n    public Optional<Book> get(Long id) {\n        return list.stream().filter(item -> item.getId().equals(id)).findFirst();\n    }\n\n    @Override\n    public void delete(Long id) {\n        if (get(id).isPresent()) {\n            list.remove(this.get(id).get());\n        }\n    }\n    @Override\n    public void update(Book book) {\n        if (this.get(book.getId()).isPresent()) {\n            int indexOf = list.indexOf(this.get(book.getId()).get());\n            list.set(indexOf, book);\n        }\n    }\n\n\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/pl/coderslab/service/MockBookService.java b/src/main/java/pl/coderslab/service/MockBookService.java
+--- a/src/main/java/pl/coderslab/service/MockBookService.java	
++++ b/src/main/java/pl/coderslab/service/MockBookService.java	
+@@ -2,6 +2,7 @@
+ 
+ import lombok.AllArgsConstructor;
+ import lombok.Data;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Repository;
+ import pl.coderslab.BookService;
+ import pl.coderslab.model.Book;
+@@ -12,7 +13,6 @@
+ 
+ @Repository
+ @Data
+-@AllArgsConstructor
+ public class MockBookService implements BookService {
+ 
+     private List<Book> list;
+@@ -35,7 +35,9 @@
+         return list;
+     }
+ 
++
+     @Override
++
+     public void add(Book book) {
+         book.setId(nextId++);
+         list.add(book);
+Index: src/main/java/pl/coderslab/model/Book.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pl.coderslab.model;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\n\n@Data\n@AllArgsConstructor\npublic class Book {\n\n    private Long id;\n    private String isbn;\n    private String title;\n    private String author;\n    private String publisher;\n    private String type;\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/pl/coderslab/model/Book.java b/src/main/java/pl/coderslab/model/Book.java
+--- a/src/main/java/pl/coderslab/model/Book.java	
++++ b/src/main/java/pl/coderslab/model/Book.java	
+@@ -2,6 +2,9 @@
+ 
+ import lombok.AllArgsConstructor;
+ import lombok.Data;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Component;
++
+ 
+ @Data
+ @AllArgsConstructor
