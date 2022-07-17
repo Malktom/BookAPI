@@ -36,19 +36,19 @@ public class MockBookService {
     public Book showBook (int id) {
         return list.get(id-1);
     }
+
     public Book removeBook (int id) {
         return list.remove(id-1);
     }
 
     public void update(Book book) {
-//
-//        if (this.showBook(book.getId()).isPresent()) {
-//
-//            int indexOf = list.indexOf(this.get(book.getId()).get());
-//
-//            list.set(indexOf, book);
-//
-//        }
+
+       Book bookToUpdate = showBook(Math.toIntExact(book.getId()));
+        bookToUpdate.setIsbn(book.getIsbn());
+        bookToUpdate.setTitle(book.getTitle());
+        bookToUpdate.setAuthor(book.getAuthor());
+        bookToUpdate.setPublisher(book.getPublisher());
+        bookToUpdate.setType(book.getType());
 
     }
 }

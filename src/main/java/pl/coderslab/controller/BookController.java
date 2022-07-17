@@ -33,23 +33,13 @@ public class BookController {
         return mockBookService.getList();
     }
 
-    @GetMapping("addBook")
-    public String hello() {
-        return "/form";
-    }
-    @PostMapping("addBook")
+
+    @PostMapping("")
     @ResponseBody
-    public String createNewBook(
-                                @RequestParam(name ="isbn") String isbn,
-                                @RequestParam(name ="title") String title,
-                                @RequestParam(name ="author") String author,
-                                @RequestParam(name ="publisher") String publisher,
-                                @RequestParam(name ="type") String type) {
-        mockBookService.createNewBook(new Book(isbn,title,author,publisher,type));
+    public String createNewBook(@RequestBody Book book) {
+        mockBookService.createNewBook(book);
         return "book added";
-
     }
-
     @GetMapping("/{id}")
     @ResponseBody
         public Book showBook(@PathVariable int id) {
@@ -63,11 +53,11 @@ public class BookController {
         return mockBookService.removeBook(id);
     }
 
-//    @PutMapping("")
-//    @ResponseBody
-//    public void updateBook(@RequestBody Book book) {
-//        mockBookService.updateBook(book);
-//    }
+    @PutMapping("")
+    @ResponseBody
+    public void updateBook(@RequestBody Book book) {
+        mockBookService.update(book);
+    }
 
 
 }
