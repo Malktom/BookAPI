@@ -1,23 +1,26 @@
 package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import pl.coderslab.BookService;
 import pl.coderslab.model.Book;
 import pl.coderslab.service.MockBookService;
 
 import java.util.List;
 
 @Controller  // zmienic na RestController
-@RequestMapping("/books")
+@RequestMapping("books")
 public class BookController {
 
-    private MockBookService mockBookService;
+    private BookService bookService;
 
-    @Autowired
-    public BookController(MockBookService mockBookService) {
-        this.mockBookService = mockBookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
+
 
     @RequestMapping("/helloBook")
     @ResponseBody // usunac
@@ -26,40 +29,35 @@ public class BookController {
                 "Bruce Eckel", "Helion", "programming");
     }
 
-    @GetMapping("books")
-    @ResponseBody // ususnac
-    public List<Book> getBooksList () {
-
-        return mockBookService.getList();
-    }
-
-    @GetMapping("addBook")
-    public String hello() {
-        return "/form";
-    }
-    @PostMapping("addBook")
+    @GetMapping("")
     @ResponseBody
-    public String createNewBook(@RequestParam(name="id") Long id ,
-                                @RequestParam(name ="isbn") String isbn,
-                                @RequestParam(name ="title") String title,
-                                @RequestParam(name ="author") String author,
-                                @RequestParam(name ="publisher") String publisher,
-                                @RequestParam(name ="type") String type) {
-        mockBookService.createNewBook(new Book(id,isbn,title,author,publisher,type));
-        return "book added";
-
+    public
+    List<Book> getList() {
+        return bookService.getBooks();
     }
-
-    @GetMapping("books/{id}")
+    @PostMapping("")
     @ResponseBody
-        public Book showBook(@PathVariable int id) {
-
-        return mockBookService.showBook(id);
+    public void addBook(@RequestBody Book book) {
+        bookService.add(book);
     }
-    @DeleteMapping("books/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Book removeBook(@PathVariable int id) {
-
-        return mockBookService.removeBook(id);
+    public Book getBook(@PathVariable Long id) {
+        return this.bookService.get(id).orElseThrow(() -> {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "entity not found"
+            );
+        });
     }
+    @DeleteMapping("/{id}")
+    public void removeBook(@PathVariable Long id) {
+        bookService.delete(id);
+    }
+    @PutMapping("")
+    @ResponseBody
+    public void updateBook(@RequestBody Book book) {
+        bookService.update(book);
+    }
+
+
 }
